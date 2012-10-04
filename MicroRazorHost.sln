@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroRazorHost", "MicroRazorHost\MicroRazorHost.csproj", "{BF30BCBA-38D9-40CD-82DD-5B3CF25C6506}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroRazorHost.Test", "MicroRazorHost.Test\MicroRazorHost.Test.csproj", "{350CC86E-F094-4436-94E7-C70CACDD457B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF30BCBA-38D9-40CD-82DD-5B3CF25C6506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF30BCBA-38D9-40CD-82DD-5B3CF25C6506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF30BCBA-38D9-40CD-82DD-5B3CF25C6506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF30BCBA-38D9-40CD-82DD-5B3CF25C6506}.Release|Any CPU.Build.0 = Release|Any CPU
+		{350CC86E-F094-4436-94E7-C70CACDD457B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{350CC86E-F094-4436-94E7-C70CACDD457B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{350CC86E-F094-4436-94E7-C70CACDD457B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{350CC86E-F094-4436-94E7-C70CACDD457B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
