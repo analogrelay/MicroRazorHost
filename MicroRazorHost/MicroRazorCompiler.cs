@@ -25,6 +25,11 @@ namespace MicroRazorHost
         {
             RazorEngineHost host = new RazorEngineHost(_language);
             host.DefaultBaseClass = typeof(TemplateBase).FullName;
+            host.NamespaceImports.Add("System");
+            host.NamespaceImports.Add("System.Collections");
+            host.NamespaceImports.Add("System.Collections.Generic");
+            host.NamespaceImports.Add("System.Dynamic");
+            host.NamespaceImports.Add("System.Linq");
             return host;
         }
 
@@ -44,13 +49,28 @@ namespace MicroRazorHost
                 return new CompilationResults(generatorResults, new List<CompilerError>());
             }
 
+            var referencedAssemblies = new[]
+            {
+                "mscorlib.dll",
+                "system.dll",
+                "system.core.dll",
+                "microsoft.csharp.dll", 
+                typeof(TemplateBase).Assembly.Location,
+            };
+            var compilerParameters = new CompilerParameters(referencedAssemblies)
+            {
+                GenerateInMemory = true,
+                CompilerOptions = "/optimize"
+            };
+
+
             // Compile the code to a temporary assembly
             CodeDomProvider provider = Activator.CreateInstance(_language.CodeDomProviderType) as CodeDomProvider;
             if (provider == null)
             {
                 throw new InvalidCastException(String.Format("Unable to convert '{0}' to a CodeDomProvider", _language.CodeDomProviderType.FullName));
             }
-            var compilerResults = provider.CompileAssemblyFromDom(new CompilerParameters(new [] { typeof(TemplateBase).Assembly.Location }), generatorResults.GeneratedCode);
+            var compilerResults = provider.CompileAssemblyFromDom(compilerParameters, generatorResults.GeneratedCode);
             if (compilerResults.Errors.HasErrors)
             {
                 return new CompilationResults(generatorResults, compilerResults.Errors.Cast<CompilerError>().ToList());

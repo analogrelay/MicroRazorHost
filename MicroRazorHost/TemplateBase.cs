@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,10 +11,16 @@ namespace MicroRazorHost
 {
     public abstract class TemplateBase
     {
+        private static readonly Dictionary<string, object> EmptyHash;
         private StringBuilder _output;
         private StringWriter _writer;
 
         public StringWriter Writer { get { return _writer; } }
+
+        static TemplateBase()
+        {
+             EmptyHash = new Dictionary<string, object>();
+        }
 
         public TemplateBase()
         {
@@ -21,14 +28,38 @@ namespace MicroRazorHost
             _writer = new StringWriter(_output);
         }
 
-        public string Run()
+        public string Run(object model = null)
         {
             Reset();
+            PrepareModel(model);
             Execute();
-            _writer.Flush();
-            string result = _output.ToString();
+            Writer.Flush();
+            var result = _output.ToString();
             Reset();
             return result;
+        }
+
+        protected dynamic Model { get; private set; }
+
+        protected virtual void PrepareModel(object model)
+        {
+            if (model == null)
+            {
+                Model = new ModelContainer(EmptyHash);
+                return;
+            }
+
+            if (model is IDynamicMetaObjectProvider)
+            {
+                return;
+            }
+
+            var hash = model.GetType()
+                            .GetProperties()
+                            .Where(property => property.CanRead && property.GetIndexParameters().Length == 0)
+                            .ToDictionary(property => property.Name, property => property.GetValue(model, null));
+
+            Model = new ModelContainer(hash);
         }
 
         public abstract void Execute();

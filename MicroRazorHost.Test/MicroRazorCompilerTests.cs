@@ -92,5 +92,25 @@ namespace MicroRazorHost.Test
             Assert.True(results.Success);
             Assert.Equal(expected, results.Compiled.Run());
         }
+
+        [Fact]
+        public void DynamicModels()
+        {
+            // The template
+            const string templ = "<p>@Model.Foo:@Model.Bar</p>";
+            string expected = "<p>Bim:Bop</p>";
+
+            // The model
+            var model = new { Foo = "Bim", Bar = "Bop" };
+
+            // Arrange
+            MicroRazorCompiler compiler = MicroRazorCompiler.CreateCSharp();
+            compiler.Host.NamespaceImports.Add("System");
+
+            // Act
+            var results = compiler.Compile(templ);
+            Assert.True(results.Success);
+            Assert.Equal(expected, results.Compiled.Run(model));
+        }
     }
 }

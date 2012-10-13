@@ -47,6 +47,7 @@
     <Compile Include="CompilationResults.cs" />
     <Compile Include="HashCodeCombiner.cs" />
     <Compile Include="MicroRazorCompiler.cs" />
+    <Compile Include="ModelContainer.cs" />
     <Compile Include="PositionTagged.cs" />
     <Compile Include="TemplateBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
